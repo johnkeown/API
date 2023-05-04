@@ -22,7 +22,36 @@ router.get("/dangerZone", function (req, res) {
         }
     });
     connection.execute(
-        "SELECT * FROM inspection_results_food_service_establishments WHERE grade_recent = 'C' ORDER BY date_recent DESC, premise_name DESC",
+        `SELECT
+        *
+    FROM
+        (
+        SELECT
+            EstablishmentID,
+            InspectionID,
+            Ins_TypeDesc,
+            EstablishmentName,
+            Address,
+            Address2,
+            City,
+            State,
+            Zip,
+            TypeDescription,
+            MAX(InspectionDate) AS InspectionDate,
+            score,
+            Grade
+        FROM
+            lmky_restaurant_inspection_scores
+        WHERE TypeDescription = 'FOOD SERVICE'
+        GROUP BY
+            EstablishmentID
+    ) AS latestInspections
+    WHERE
+        Grade = 'C'
+    ORDER BY
+        EstablishmentName,
+        Address`,
+        // "SELECT * FROM inspection_results_food_service_establishments WHERE grade_recent = 'C' ORDER BY date_recent DESC, premise_name DESC",
         function (err, rows, fields) {
             res.send({
                 results: rows || [],

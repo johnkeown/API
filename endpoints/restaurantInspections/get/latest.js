@@ -22,7 +22,28 @@ router.get("/latest", function (req, res) {
         }
     });
     connection.execute(
-        "SELECT * FROM inspection_results_food_service_establishments ORDER BY date_recent DESC, premise_name LIMIT :limit",
+        `SELECT
+        EstablishmentID,
+        InspectionID,
+        Ins_TypeDesc,
+        EstablishmentName,
+        Address,
+        Address2,
+        City,
+        State,
+        Zip,
+        TypeDescription,
+        MAX(InspectionDate) AS InspectionDate,
+        score,
+        Grade
+    FROM
+        lmky_restaurant_inspection_scores
+    WHERE TypeDescription = 'FOOD SERVICE'
+    GROUP BY EstablishmentID
+    ORDER BY
+        InspectionDate DESC,
+        EstablishmentName
+    LIMIT :limit`,
         { limit: "30" },
         function (err, rows, fields) {
             res.send({

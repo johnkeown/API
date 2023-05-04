@@ -3,15 +3,7 @@ var express = require("express"),
 const mysql = require("mysql2");
 
 router.get("/violations", function (req, res) {
-    if (
-        req.query.premise_name &&
-        req.query.premise_address_number &&
-        req.query.premise_address_street &&
-        req.query.premise_city &&
-        req.query.premise_state &&
-        req.query.premise_zip &&
-        req.query.inspection_date
-    ) {
+    if (req.query.establishment_id && req.query.inspection_id) {
         const connection = mysql.createConnection({
             host: process.env.DB_HOST,
             user: process.env.DB_USER,
@@ -31,23 +23,25 @@ router.get("/violations", function (req, res) {
             }
         });
         connection.execute(
-            "SELECT *\
-          FROM inspection_violations\
-          WHERE premise_name = :premise_name\
-            AND premise_adr1_num = :premise_address_number\
-            AND premise_adr1_street = :premise_address_street\
-            AND premise_city = :premise_city\
-            AND premise_state = :premise_state\
-            AND premise_zip = :premise_zip\
-            AND inspection_date = DATE_ADD(:inspection_date, INTERVAL -1 DAY)",
+            `SELECT
+            EstablishmentID,
+            InspectionDate,
+            InspectionID,
+            InspectionType,
+            score,
+            InspTypeSpecificViolID,
+            ViolationDesc,
+            critical_yn,
+            Insp_Viol_Comments,
+            rpt_area_id
+        FROM
+            lmky_inspection_violations_of_failed_restaurants
+        WHERE
+            EstablishmentID = :establishment_id
+            AND InspectionID = :inspection_id`,
             {
-                premise_name: req.query.premise_name,
-                premise_address_number: req.query.premise_address_number,
-                premise_address_street: req.query.premise_address_street,
-                premise_city: req.query.premise_city,
-                premise_state: req.query.premise_state,
-                premise_zip: req.query.premise_zip,
-                inspection_date: req.query.inspection_date,
+                establishment_id: req.query.establishment_id,
+                inspection_id: req.query.inspection_id,
             },
             function (err, rows, fields) {
                 res.send({

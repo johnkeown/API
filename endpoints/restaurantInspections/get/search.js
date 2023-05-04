@@ -22,7 +22,29 @@ router.get("/search", function (req, res) {
             }
         });
         connection.execute(
-            "SELECT * FROM inspection_results_food_service_establishments WHERE premise_name LIKE ?",
+            `SELECT
+            EstablishmentID,
+            InspectionID,
+            Ins_TypeDesc,
+            EstablishmentName,
+            Address,
+            Address2,
+            City,
+            State,
+            Zip,
+            TypeDescription,
+            MAX(InspectionDate) AS InspectionDate,
+            score,
+            Grade
+        FROM
+            lmky_restaurant_inspection_scores
+        WHERE
+            EstablishmentName LIKE ?
+            AND TypeDescription = 'FOOD SERVICE'
+        GROUP BY EstablishmentID
+        ORDER BY
+            InspectionDate DESC,
+            EstablishmentName`,
             ["%" + req.query.search_term + "%"],
             function (err, rows, fields) {
                 res.send({
