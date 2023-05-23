@@ -41,6 +41,7 @@ router.get("/search", function (req, res) {
         WHERE
             EstablishmentName LIKE ?
             AND TypeDescription = 'FOOD SERVICE'
+            AND Grade != ''
         GROUP BY EstablishmentID
         ORDER BY
             InspectionDate DESC,
