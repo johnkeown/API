@@ -52,6 +52,13 @@ router.get("/search", function (req, res) {
                     errorCode: err ? 1 : 0,
                     errorMessage: err ? "An error has occurred" : "",
                 });
+                connection.execute(
+                    `INSERT INTO log_search_term (search_term, hostname) VALUES (?, ?)`,
+                    [req.query.search_term, req.hostname],
+                    function (err, row, fields) {
+                        res.end();
+                    }
+                );
             }
         );
     } else {
@@ -59,7 +66,7 @@ router.get("/search", function (req, res) {
             results: [],
             errorCode: 1,
             errorMessage: "Please enter a search term and try again",
-        });
+        }).end();
     }
 });
 
