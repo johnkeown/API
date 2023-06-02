@@ -39,6 +39,7 @@ router.get("/latest", function (req, res) {
     FROM
         lmky_restaurant_inspection_scores
     WHERE TypeDescription = 'FOOD SERVICE'
+        AND Grade != ''
     GROUP BY EstablishmentID
     ORDER BY
         InspectionDate DESC,
