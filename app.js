@@ -13,5 +13,5 @@ app.use("/", endpoints);
 // });
 
 app.listen(port, () => {
-    console.log(`Example app listening on port ${port}`);
+    console.log(`API app listening on port ${port}`);
 });
