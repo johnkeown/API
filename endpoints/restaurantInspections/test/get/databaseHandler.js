@@ -5,8 +5,8 @@ const databaseHandler = require("../../../../lib/databaseHandler/index.js");
 
 router.get("/test/databaseHandler", async function (req, res) {
     const db = new databaseHandler();
-    await db.init();
-    await db.connect();
+    // await db.init();
+    // await db.connect();
     let queryRes = await db.query(
         `SELECT
             EstablishmentName
@@ -15,8 +15,7 @@ router.get("/test/databaseHandler", async function (req, res) {
         WHERE TypeDescription = 'FOOD SERVICE'
         LIMIT 1`
     );
-    console.log(queryRes?.rows || queryRes);
-    res.send(queryRes?.rows);
+    res.send(queryRes.rows);
 });
 
 module.exports = router;

@@ -8,6 +8,8 @@ var dangerZone = require("./get/dangerZone");
 var violations = require("./get/violations");
 var testDatabaseHandler = require("./test/get/databaseHandler");
 var testDatabaseHandlerParams = require("./test/get/databaseHandlerParams");
+var testFindNew = require("./test/get/findNew");
+var adminImportInspectionsUpload = require("./admin/post/importInspectionsUpload");
 
 router.use(
     "/",
@@ -17,7 +19,9 @@ router.use(
     dangerZone,
     violations,
     testDatabaseHandler,
-    testDatabaseHandlerParams
+    testDatabaseHandlerParams,
+    testFindNew,
+    adminImportInspectionsUpload
 );
 
 module.exports = router;

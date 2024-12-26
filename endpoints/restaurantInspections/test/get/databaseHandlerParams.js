@@ -5,8 +5,8 @@ const databaseHandler = require("../../../../lib/databaseHandler/index.js");
 
 router.get("/test/databaseHandlerParams", async function (req, res) {
     const db = new databaseHandler();
-    await db.init();
-    await db.connect();
+    // await db.init();
+    // await db.connect();
     let queryRes = await db.query(
         `SELECT
             EstablishmentName
@@ -17,8 +17,7 @@ router.get("/test/databaseHandlerParams", async function (req, res) {
         LIMIT 1`,
         ["%Apple%"]
     );
-    console.log(queryRes?.rows || queryRes);
-    res.send(queryRes?.rows);
+    res.send(queryRes.rows);
 });
 
 module.exports = router;
