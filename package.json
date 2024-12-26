@@ -13,11 +13,11 @@
         "cors": "^2.8.5",
         "csv-parse": "^5.5.5",
         "csvtojson": "^2.0.10",
-        "dotenv-safe": "^8.2.0",
-        "express": "^4.18.2",
+        "dotenv-safe": "^9.1.0",
+        "express": "^4.21.2",
         "express-fileupload": "^1.5.0",
-        "mysql2": "^3.2.0",
-        "nodemon": "^2.0.22",
+        "mysql2": "^3.12.0",
+        "nodemon": "^3.1.9",
         "stream": "^0.0.2",
         "underscore": "^1.13.6"
     }
